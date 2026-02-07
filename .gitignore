@@ -1,5 +1,23 @@
-*.class
-*.log
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.py[cod]
+*$py.class
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# C extensions
+*.so
+*.o
+*.dylib
+
+# But keep the root .so for local development/testing
+!rbtree*.so
+
+# Python cache
+.pytest_cache/
+.coverage
+*.cover
+.python-version
+
+PUBLISHING.md
