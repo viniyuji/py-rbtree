@@ -14,7 +14,7 @@ rbtree_module = Extension(
 )
 
 setup(
-    name='py-rbtree',
+    name='py-red-black-tree',
     version='1.0.0',
     author='Vinícius Yuji Guima',
     author_email='viyugui@gmail.com',
