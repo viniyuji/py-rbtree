@@ -4,8 +4,8 @@ on:
   release:
     types: [published]
     branches:
-      - main
-  workflow_dispatch:
+      - main  # Restrict to main branch
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   build:
@@ -41,9 +41,6 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/project/py-red-black-tree
-      deployment_protection_rules:
-        required_approvers:
-          - "viniyuji"
     permissions:
       id-token: write
     
@@ -67,9 +64,6 @@ jobs:
     environment:
       name: testpypi
       url: https://test.pypi.org/project/py-red-black-tree
-      deployment_protection_rules:
-        required_approvers:
-          - "viniyuji"  # Replace with actual approver username
     permissions:
       id-token: write
 
