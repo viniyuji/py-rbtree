@@ -10,7 +10,7 @@ rbtree_module = Extension(
     'rbtree',
     sources=['src/rbtree_python.c', 'src/rbtree.c'],
     include_dirs=['src'],
-    extra_compile_args=['-std=c23', '-Wall', '-Wextra'],
+    extra_compile_args=['-std=c17', '-Wall', '-Wextra'],
 )
 
 setup(
