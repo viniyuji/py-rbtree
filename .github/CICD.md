@@ -26,7 +26,7 @@ Trusted publishing is the modern, secure way to publish to PyPI without using pa
 2. Navigate to your account settings
 3. Click on "Publishing" tab
 4. Add a new pending publisher:
-   - **PyPI Project Name**: `rbtree`
+   - **PyPI Project Name**: `py-red-black-tree`
    - **Owner**: Your GitHub username (e.g., `yourusername`)
    - **Repository**: Your repo name (e.g., `python-rbtree`)
    - **Workflow name**: `publish.yml`

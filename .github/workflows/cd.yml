@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/rbtree
+      url: https://pypi.org/project/py-red-black-tree
     permissions:
       id-token: write  # Required for trusted publishing
     
@@ -61,7 +61,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'  # Only for manual triggers
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/rbtree
+      url: https://test.pypi.org/project/py-red-black-tree
     permissions:
       id-token: write
 
