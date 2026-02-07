@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-"""Test script for Red-Black Tree Python module."""
-
 def test_basic_operations():
-    """Test basic insert, search, and delete operations."""
     import rbtree
     
     print("Creating red-black tree...")
@@ -48,7 +44,6 @@ def test_basic_operations():
     print("\n✓ All basic tests passed!")
 
 def test_error_handling():
-    """Test error handling."""
     import rbtree
     
     print("\nTesting error handling...")
@@ -79,7 +74,6 @@ def test_error_handling():
     print("✓ All error handling tests passed!")
 
 def test_complex_values():
-    """Test storing complex Python objects."""
     import rbtree
     
     print("\nTesting with complex Python objects...")
@@ -99,7 +93,6 @@ def test_complex_values():
     print("✓ Complex value tests passed!")
 
 def test_large_dataset():
-    """Test with a larger dataset."""
     import rbtree
     
     print("\nTesting with large dataset...")
@@ -125,7 +118,6 @@ def test_large_dataset():
     print("✓ Large dataset test passed!")
 
 def main():
-    """Run all tests."""
     print("=" * 60)
     print("Red-Black Tree Python Module Tests")
     print("=" * 60)

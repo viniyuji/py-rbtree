@@ -1,4 +1,4 @@
-# Red-Black Tree Python Module
+# py-rbtree
 
 A high-performance red-black tree implementation in C with Python bindings.
 
@@ -6,14 +6,11 @@ A high-performance red-black tree implementation in C with Python bindings.
 
 - **Fast**: O(log n) insert, search, and delete operations
 - **Self-balancing**: Automatically maintains optimal tree structure
-- **Pythonic**: Natural Python interface with operator support
-- **Memory-safe**: Proper reference counting and cleanup
-- **Tested**: Comprehensive test suite included
 
 ## Installation
 
 ```bash
-python3 setup.py build_ext --inplace
+make build
 ```
 
 ## Quick Start
@@ -85,15 +82,5 @@ Check if a key exists in the tree.
 ## Running Tests
 
 ```bash
-python3 test_rbtree.py
+make test
 ```
-
-## Implementation
-
-- Core algorithm: Red-black tree in C (rbtree.c)
-- Python binding: Python C API (rbtree_python.c)
-- Total lines: ~700 LOC
-
-## License
-
-This implementation is provided as-is for educational and commercial use.

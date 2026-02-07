@@ -14,14 +14,14 @@ rbtree_module = Extension(
 )
 
 setup(
-    name='rbtree',
+    name='py-rbtree',
     version='1.0.0',
-    author='Your Name',  # Update with your name
-    author_email='your.email@example.com',  # Update with your email
+    author='Vinícius Yuji Guima',
+    author_email='viyugui@gmail.com',
     description='High-performance red-black tree implementation in C with Python bindings',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/yourusername/python-rbtree',  # Update with your repo URL
+    url='https://github.com/viniyuji/py-rbtree',
     ext_modules=[rbtree_module],
     python_requires='>=3.7',
     classifiers=[

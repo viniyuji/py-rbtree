@@ -20,4 +20,4 @@ __pycache__/
 *.cover
 .python-version
 
-PUBLISHING.md
+src/*.so

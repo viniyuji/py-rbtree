@@ -1,5 +1,3 @@
-.PHONY: help build test clean install dev all
-
 PYTHON = python3
 
 all: build
@@ -20,13 +18,13 @@ build:
 	$(PYTHON) setup.py build_ext --inplace
 
 test: build
-	$(PYTHON) test_rbtree.py
+	PYTHONPATH=src $(PYTHON) test_rbtree.py
 
 clean:
 	rm -rf build/
 	rm -rf dist/
 	rm -rf *.egg-info/
-	rm -f *.so
+	rm -f ./src/*.so
 	rm -f *.o
 	rm -rf __pycache__/
 	find . -type f -name '*.pyc' -delete
