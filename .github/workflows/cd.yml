@@ -51,6 +51,8 @@ jobs:
     
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_TOKEN }}
 
   publish-to-testpypi:
     name: Publish to TestPyPI
@@ -62,7 +64,7 @@ jobs:
       url: https://test.pypi.org/p/rbtree
     permissions:
       id-token: write
-    
+
     steps:
     - name: Download distributions
       uses: actions/download-artifact@v4
@@ -74,3 +76,4 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         repository-url: https://test.pypi.org/legacy/
+        password: ${{ secrets.PYPI_TOKEN }}
