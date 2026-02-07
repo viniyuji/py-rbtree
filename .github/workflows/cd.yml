@@ -3,7 +3,9 @@ name: Publish to PyPI
 on:
   release:
     types: [published]
-  workflow_dispatch:  # Allow manual triggering
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -39,8 +41,11 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/project/py-red-black-tree
+      deployment_protection_rules:
+        required_approvers:
+          - "viniyuji"
     permissions:
-      id-token: write  # Required for trusted publishing
+      id-token: write
     
     steps:
     - name: Download distributions
@@ -62,6 +67,9 @@ jobs:
     environment:
       name: testpypi
       url: https://test.pypi.org/project/py-red-black-tree
+      deployment_protection_rules:
+        required_approvers:
+          - "viniyuji"  # Replace with actual approver username
     permissions:
       id-token: write
 
