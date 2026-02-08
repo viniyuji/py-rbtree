@@ -10,7 +10,7 @@ A high-performance red-black tree implementation in C with Python bindings.
 ## Installation
 
 ```bash
-make build
+pip install py-red-black-tree
 ```
 
 ## Quick Start
@@ -78,9 +78,3 @@ Return the number of items in the tree.
 ### `key in tree -> bool`
 
 Check if a key exists in the tree.
-
-## Running Tests
-
-```bash
-make test
-```
