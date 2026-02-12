@@ -29,7 +29,10 @@ tree.insert(15, "fifteen")
 # Search
 value = tree.search(10)  # Returns "ten"
 
-# Check membership
+# Delete
+tree.delete(5)
+
+# Verify key
 if 10 in tree:
     print("Found!")
 
@@ -39,6 +42,4 @@ print(len(tree))  # 3
 # Sorted traversal
 items = tree.inorder()  # [(5, 'five'), (10, 'ten'), (15, 'fifteen')]
 
-# Delete
-tree.delete(5)
 ```
