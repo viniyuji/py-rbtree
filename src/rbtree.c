@@ -249,11 +249,17 @@ RBTree *rbtree_create(void) {
 }
 
 /* Recursively destroy nodes */
-static void destroy_nodes(RBTree *tree, RBNode *node) {
+/* Recursively destroy nodes */
+static void destroy_nodes(RBTree *tree, RBNode *node, void (*free_cb)(void *data)) {
     if (node == tree->nil) return;
     
-    destroy_nodes(tree, node->left);
-    destroy_nodes(tree, node->right);
+    destroy_nodes(tree, node->left, free_cb);
+    destroy_nodes(tree, node->right, free_cb);
+    
+    if (free_cb && node->data) {
+        free_cb(node->data);
+    }
+    
     free(node);
 }
 
@@ -261,7 +267,16 @@ static void destroy_nodes(RBTree *tree, RBNode *node) {
 void rbtree_destroy(RBTree *tree) {
     if (!tree) return;
     
-    destroy_nodes(tree, tree->root);
+    destroy_nodes(tree, tree->root, NULL);
+    free(tree->nil);
+    free(tree);
+}
+
+/* Destroy the tree and assist in freeing user data */
+void rbtree_destroy_with_callback(RBTree *tree, void (*free_cb)(void *data)) {
+    if (!tree) return;
+    
+    destroy_nodes(tree, tree->root, free_cb);
     free(tree->nil);
     free(tree);
 }
@@ -418,4 +433,80 @@ static void postorder_helper(RBTree *tree, RBNode *node, void (*callback)(int ke
 void rbtree_postorder(RBTree *tree, void (*callback)(int key, void *data)) {
     if (!tree || !callback) return;
     postorder_helper(tree, tree->root, callback);
+}
+
+/* Helper: Check BST property and return count */
+static bool validate_bst_helper(RBTree *tree, RBNode *node, long long *last_key, size_t *count) {
+    if (node == tree->nil) return true;
+    
+    if (!validate_bst_helper(tree, node->left, last_key, count)) return false;
+    
+    if (node->key <= *last_key) {
+        return false;
+    }
+    *last_key = node->key;
+    (*count)++;
+    
+    if (!validate_bst_helper(tree, node->right, last_key, count)) return false;
+    
+    return true;
+}
+
+/* Helper: Check Red-Black properties 
+   Returns black height of the node, or -1 if invalid
+*/
+static int validate_rb_helper(RBTree *tree, RBNode *node) {
+    if (node == tree->nil) {
+        return 1; /* Black height of nil is 1 (it's black) */
+    }
+    
+    /* Property: Red node must have black children */
+    if (node->color == RED) {
+        if (node->left->color == RED || node->right->color == RED) {
+            return -1;
+        }
+    }
+    
+    int left_bh = validate_rb_helper(tree, node->left);
+    if (left_bh == -1) return -1;
+    
+    int right_bh = validate_rb_helper(tree, node->right);
+    if (right_bh == -1) return -1;
+    
+    /* Property: Every path from node to descendant leaves has same number of black nodes */
+    if (left_bh != right_bh) {
+        return -1;
+    }
+    
+    /* Calculate black height for this node */
+    return left_bh + (node->color == BLACK ? 1 : 0);
+}
+
+/* Validate the Red-Black Tree */
+bool rbtree_validate(RBTree *tree) {
+    if (!tree) return false;
+    
+    /* Check 1: Root must be black */
+    if (tree->root->color != BLACK) {
+        return false;
+    }
+    
+    /* Check 2: BST Property and Size */
+    long long last_key = -9223372036854775807LL; /* Safe minimum for int keys */
+    size_t count = 0;
+    
+    if (!validate_bst_helper(tree, tree->root, &last_key, &count)) {
+        return false;
+    }
+    
+    if (count != tree->size) {
+        return false;
+    }
+    
+    /* Check 3: Red-Black Properties (Black Height + Red/Red conflict) */
+    if (validate_rb_helper(tree, tree->root) == -1) {
+        return false;
+    }
+    
+    return true;
 }

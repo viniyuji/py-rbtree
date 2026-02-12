@@ -11,10 +11,15 @@ typedef struct {
 /* Forward declarations */
 static PyTypeObject RBTreeType;
 
+/* Helper to decref stored Python objects */
+static void RBTree_decref_data(void *data) {
+    Py_XDECREF((PyObject *)data);
+}
+
 /* Destructor */
 static void RBTree_dealloc(RBTreeObject *self) {
     if (self->tree) {
-        rbtree_destroy(self->tree);
+        rbtree_destroy_with_callback(self->tree, RBTree_decref_data);
     }
     Py_TYPE(self)->tp_free((PyObject *)self);
 }
@@ -164,6 +169,15 @@ static PyObject *RBTree_inorder(RBTreeObject *self, PyObject *Py_UNUSED(ignored)
     return list;
 }
 
+/* Validate method: validate() */
+static PyObject *RBTree_validate(RBTreeObject *self, PyObject *Py_UNUSED(ignored)) {
+    if (rbtree_validate(self->tree)) {
+        Py_RETURN_TRUE;
+    } else {
+        Py_RETURN_FALSE;
+    }
+}
+
 /* Size method: __len__() */
 static Py_ssize_t RBTree_length(RBTreeObject *self) {
     return (Py_ssize_t)rbtree_size(self->tree);
@@ -181,6 +195,8 @@ static PyMethodDef RBTree_methods[] = {
      "Check if a key exists in the tree"},
     {"inorder", (PyCFunction)RBTree_inorder, METH_NOARGS,
      "Return inorder traversal as list of (key, value) tuples"},
+    {"validate", (PyCFunction)RBTree_validate, METH_NOARGS,
+     "Validate the Red-Black Tree properties"},
     {NULL}  /* Sentinel */
 };
 

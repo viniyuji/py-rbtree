@@ -117,6 +117,81 @@ def test_large_dataset():
     
     print("✓ Large dataset test passed!")
 
+def test_random_operations():
+    import rbtree
+    import random
+    
+    print("\nTesting random operations with validation...")
+    tree = rbtree.RBTree()
+    
+    # Insert 1000 items (random order)
+    items = list(range(1000))
+    random.shuffle(items)
+    
+    print("  Inserting 1000 items...")
+    for i, item in enumerate(items):
+        tree.insert(item, f"val_{item}")
+        if i % 100 == 0:
+            assert tree.validate(), f"Tree invalid after insertion {i}"
+    
+    assert tree.validate(), "Tree invalid after all insertions"
+    print("  ✓ Tree valid after insertions")
+    
+    print("  Deleting 500 items (randomly)...")
+    to_delete = items[:500]
+    for i, item in enumerate(to_delete):
+        tree.delete(item)
+        if i % 100 == 0:
+            assert tree.validate(), f"Tree invalid after deletion {i}"
+    
+    assert tree.validate(), "Tree invalid after all deletions"
+    print("  ✓ Tree valid after deletions")
+    
+    assert len(tree) == 500
+    print("✓ Random operations passed!")
+
+def test_memory_leak():
+    import rbtree
+    import sys
+    
+    print("\nTesting for memory leaks (refcount check)...")
+    
+    # Create an object
+    obj = object()
+    print(f"Object address: {id(obj)}")
+    initial_refcount = sys.getrefcount(obj)
+    
+    # Create tree and insert object
+    tree = rbtree.RBTree()
+    print(f"Tree refcount after create: {sys.getrefcount(tree)}")
+    tree.insert(1, obj)
+    print(f"Tree refcount after insert: {sys.getrefcount(tree)}")
+    
+    # Check refcount increased
+    assert sys.getrefcount(obj) > initial_refcount, "Refcount should increase after insertion"
+    
+    # Delete tree
+    print("Deleting tree...")
+    del tree
+    print("Deleted tree.")
+    
+    # Check refcount returned to initial
+    # Note: sys.getrefcount behavior can be tricky, but it should be consistent here.
+    final_refcount = sys.getrefcount(obj)
+    
+    if final_refcount != initial_refcount:
+        print(f"  Warning: Refcount mismatch. Initial: {initial_refcount}, Final: {final_refcount}")
+        print("  This might indicate a memory leak, or just temporary references.")
+        # Try garbage collection
+        import gc
+        gc.collect()
+        final_refcount = sys.getrefcount(obj)
+        print(f"  After GC: {final_refcount}")
+        
+    assert final_refcount == initial_refcount, f"Memory leak detected! Refcount did not return to initial value. {initial_refcount} vs {final_refcount}"
+    
+    print("✓ Memory leak test passed!")
+
 def main():
     print("=" * 60)
     print("Red-Black Tree Python Module Tests")
@@ -126,6 +201,8 @@ def main():
     test_error_handling()
     test_complex_values()
     test_large_dataset()
+    test_random_operations()
+    test_memory_leak()
     
     print("\n" + "=" * 60)
     print("All tests passed successfully! ✓")

@@ -30,6 +30,7 @@ typedef struct RBTree {
 /* Tree operations */
 RBTree *rbtree_create(void);
 void rbtree_destroy(RBTree *tree);
+void rbtree_destroy_with_callback(RBTree *tree, void (*free_cb)(void *data));
 bool rbtree_insert(RBTree *tree, int key, void *data);
 bool rbtree_delete(RBTree *tree, int key);
 void *rbtree_search(RBTree *tree, int key);
@@ -44,5 +45,8 @@ void rbtree_postorder(RBTree *tree, void (*callback)(int key, void *data));
 /* Helper functions for internal use */
 RBNode *rbtree_minimum(RBTree *tree, RBNode *node);
 RBNode *rbtree_maximum(RBTree *tree, RBNode *node);
+
+/* Validation helper for testing */
+bool rbtree_validate(RBTree *tree);
 
 #endif /* RBTREE_H */
